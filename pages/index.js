@@ -11,8 +11,7 @@ export default function SqlJsPage() {
     initSqlJs({
       // Fetch sql.js wasm file from CDN
       // This way, we don't need to deal with webpack
-      locateFile: (file) =>
-        `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.4.0/dist/${file}`,
+      locateFile: (file) => `https://sql.js.org/dist/${file}`,
     })
       .then((SQL) => setDb(new SQL.Database()))
       .catch((err) => setError(err));
@@ -44,16 +43,18 @@ export default function SqlJsPage() {
         </thead>
 
         <tbody>
-          {values.map((
-            row, // values is an array of arrays representing the results of the query
-            rowIndex
-          ) => (
-            <tr key={rowIndex}>
-              {row.map((value, cellIndex) => (
-                <td key={cellIndex}>{value}</td>
-              ))}
-            </tr>
-          ))}
+          {values.map(
+            (
+              row, // values is an array of arrays representing the results of the query
+              rowIndex
+            ) => (
+              <tr key={rowIndex}>
+                {row.map((value, cellIndex) => (
+                  <td key={cellIndex}>{value}</td>
+                ))}
+              </tr>
+            )
+          )}
         </tbody>
       </table>
     );

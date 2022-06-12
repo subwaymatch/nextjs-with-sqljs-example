@@ -2,7 +2,7 @@
 
 This is a barebone example of how to use [sql.js](https://github.com/sql-js/sql.js) in [Next.js](https://github.com/vercel/next.js/).
 
-Wait, what the heck is [sql.js](https://github.com/sql-js/sql.js)? [sql.js](https://github.com/sql-js/sql.js) is SQLite compiled to WebAssembly. This enables SQLite to be run entirely in the browser. ✨
+[sql.js](https://github.com/sql-js/sql.js) is SQLite compiled to WebAssembly. This enables SQLite to run entirely in the browser. ✨
 
 This repo is largely based on [@lovasoa](https://github.com/lovasoa)'s [react-sqljs-demo example](https://github.com/sql-js/react-sqljs-demo).
 
@@ -45,11 +45,11 @@ initSqlJs({
   // This way, we don't need to deal with webpack
   locateFile: (file) =>
     `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.4.0/dist/${file}`,
-})
+});
 ```
 
-
 ## Running locally 🏃🏻
+
 ```bash
 npm run dev
 # or
@@ -57,7 +57,6 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
 
 ## Credits
 
