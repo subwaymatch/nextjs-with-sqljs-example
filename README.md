@@ -37,7 +37,7 @@ The wasm file is retrieved from a CDN when initializing [sql.js](https://github.
 
 ```javascript
 initSqlJs({
-  locateFile: (file) => (file) => `https://sql.js.org/dist/${file}`,
+  locateFile: (file) => `https://sql.js.org/dist/${file}`,
 });
 ```
 
