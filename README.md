@@ -16,17 +16,14 @@ There are two primary differences compared to the [react-sqljs-demo example](htt
 
 ### Trick 1: Webpack config (`next.config.js`)
 
-This example doesn't utilize the `copy-webpack-plugin` to copy wasm file from `/node_modules/sql.js/dist/sql-wasm.wasm`. So, the webpack configuration will be simpler. However, we do need to ignore `fs` module in npm when in browser context.
+This example doesn't utilize `craco` to provide a custom webpack configuration. Instead, we add a custom webpack configuration in `next.config.js` to not include a polyfill for the `fs` module.
 
 ```javascript
 // next.config.js
 module.exports = {
-  webpack: (config, { isServer }) => {
-    // If in client, don't use fs module in npm
+  webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
-      config.node = {
-        fs: "empty",
-      };
+      config.resolve.fallback.fs = false;
     }
 
     return config;
@@ -36,15 +33,11 @@ module.exports = {
 
 ### Trick 2: Retrieve wasm file from CDN
 
-The wasm file is retrieved from a CDN when initializing [sql.js](https://github.com/sql-js/sql.js). This is to avoid having to use the `copy-webpack-plugin`.
+The wasm file is retrieved from a CDN when initializing [sql.js](https://github.com/sql-js/sql.js).
 
 ```javascript
-// whichever component you're initializing sql.js
 initSqlJs({
-  // Fetch sql.js wasm file from CDN
-  // This way, we don't need to deal with webpack
-  locateFile: (file) =>
-    `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.4.0/dist/${file}`,
+  locateFile: (file) => (file) => `https://sql.js.org/dist/${file}`,
 });
 ```
 
