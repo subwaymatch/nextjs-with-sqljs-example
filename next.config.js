@@ -1,4 +1,5 @@
 module.exports = {
+  reactStrictMode: true,
   webpack: (config, { isServer, webpack }) => {
     console.log(`Webpack version: ${webpack.version}`);
 

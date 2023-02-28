@@ -1,10 +1,12 @@
-# Next.js with sql.js 🐳
+# Next.js with sql.js - TypeScript edition 🐳
 
 This is a barebone example of how to use [sql.js](https://github.com/sql-js/sql.js) in [Next.js](https://github.com/vercel/next.js/).
 
 [sql.js](https://github.com/sql-js/sql.js) is SQLite compiled to WebAssembly. This enables SQLite to run entirely in the browser. ✨
 
-This repo is largely based on [@lovasoa](https://github.com/lovasoa)'s [react-sqljs-demo example](https://github.com/sql-js/react-sqljs-demo).
+This repo is forked from [@subwaymatch](https://github.com/subwaymatch/nextjs-with-sqljs-example), only it uses TypeScript and types. Please see source repo for notes. 
+
+[@subwaymatch]'s work is based on based on [@lovasoa](https://github.com/lovasoa)'s [react-sqljs-demo example](https://github.com/sql-js/react-sqljs-demo).
 
 ## Working Example 🔥
 
@@ -52,5 +54,5 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Credits
-
+[@subwaymatch] - [nextjs-with-sqljs-example](https://github.com/subwaymatch/nextjs-with-sqljs-example)
 [@lovasoa](https://github.com/lovasoa) - [react-sqljs-demo example](https://github.com/sql-js/react-sqljs-demo)

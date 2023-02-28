@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
 import initSqlJs from "sql.js";
+import { Database, QueryExecResult, SqlValue } from "sql.js";
 import styles from "../styles/Home.module.css";
 
+type ResultTableProps = {
+  columns: string[];
+  values: SqlValue[][];
+}
+
 export default function SqlJsPage() {
-  const [db, setDb] = useState(null);
-  const [error, setError] = useState(null);
-  const [execResults, setExecResults] = useState(null);
+  const [db, setDb] = useState<Database | null>(null);
+  const [error, setError] = useState<string>('');
+  const [execResults, setExecResults] = useState<QueryExecResult[] | null>(null);
 
   useEffect(() => {
     initSqlJs({
@@ -13,25 +19,33 @@ export default function SqlJsPage() {
       // This way, we don't need to deal with webpack
       locateFile: (file) => `https://sql.js.org/dist/${file}`,
     })
-      .then((SQL) => setDb(new SQL.Database()))
-      .catch((err) => setError(err));
+      .then((SQL) => {
+        console.log('in setDB');
+        debugger;
+        setDb(new SQL.Database());
+      })
+      .catch((err) => {
+        console.log('in catch statement');
+        console.log(err);
+        setError(String(err));
+      });
   }, []);
 
-  const exec = (sql) => {
+  const exec = (sql) => { 
     try {
       const results = db.exec(sql);
       setExecResults(results);
       setError(null);
     } catch (err) {
       setExecResults(null);
-      setError(err);
+      setError(String(err));
     }
   };
 
   /**
    * Renders a single value of the array returned by db.exec(...) as a table
    */
-  const ResultTable = ({ columns, values }) => {
+  const ResultTable = ({ columns, values }: ResultTableProps) => {
     return (
       <table>
         <thead>
@@ -59,6 +73,7 @@ export default function SqlJsPage() {
       </table>
     );
   };
+  console.log('is db null', db === null);
 
   return db ? (
     <div className={styles.container}>
