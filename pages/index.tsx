@@ -11,6 +11,7 @@ export default function SqlJsPage() {
   const [db, setDb] = useState<Database | null>(null);
   const [sql, setSql] = useState<initSqlJs.SqlJsStatic | null>(null);
   const [error, setError] = useState<string>("");
+  const [query, setQuery] = useState<string>("");
   const [execResults, setExecResults] = useState<QueryExecResult[] | null>(
     null
   );
@@ -24,7 +25,6 @@ export default function SqlJsPage() {
       .then((SQL) => {
         setSql(SQL);
         console.log("in setDB");
-        debugger;
         setDb(new SQL.Database());
       })
       .catch((err) => {
@@ -34,7 +34,7 @@ export default function SqlJsPage() {
       });
   }, []);
 
-  const exec = (query: string) => {
+  const exec = (query: string, db: Database) => {
     try {
       const results = db.exec(query);
       setExecResults(results);
@@ -51,32 +51,24 @@ export default function SqlJsPage() {
 
   return db ? (
     <div className={styles.container}>
-      <h2>Select a database file:</h2>
+      <h1>Next.js with SQL.js example</h1>
       <FileInput
         handleFile={(file: File) => {
           const fileReader = new FileReader();
           fileReader.onload = () => {
             if (typeof fileReader.result !== "string") {
               const typedArray = new Uint8Array(fileReader.result);
-              setDb(new sql.Database(typedArray));
+              const db = new sql.Database(typedArray);
+              setDb(db);
+              setQuery('PRAGMA table_list;');
+              exec('PRAGMA table_list;', db);
             }
           };
           fileReader.readAsArrayBuffer(file);
         }}
       />
-      <QueryForm exec={exec} />
-      <pre className={styles.error}>{(error || "").toString()}</pre>
-      <pre>
-        {execResults
-          ? execResults.map((execResult, rIndex) => (
-              <Results
-                key={rIndex}
-                columns={execResult.columns}
-                values={execResult.values}
-              />
-            ))
-          : ""}
-      </pre>
+      <QueryForm query={query} setQuery={setQuery} exec={query => exec(query, db)} />
+      <Results error={error} results={execResults} />
     </div>
   ) : (
     <pre>Loading...</pre>
